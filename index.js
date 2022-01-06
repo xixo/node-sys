@@ -18,7 +18,7 @@ const SYS_COMMANDS = {
   brew: 'brew install',
   port: 'sudo port install',
   pkgin: 'sudo pkgin install',
-  winget: 'winget install',
+  winget: 'winget install --accept-package-agreements --accept-source-agreements -h',
   choco: 'choco install',
   powershell: "powershell 'Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))'",
   'apt-get': 'sudo apt-get install',
@@ -119,8 +119,7 @@ export const installer = Sys.installer = function (application, progress) {
   if (manager[2])
     install = [manager[2]];
 
-  let silentCmd = isWindows() ? ['--accept-package-agreements', '--accept-source-agreements', '-h'] : ['-y'];
-  let whatToInstall = isArray(application) ? [].concat(application).concat(silentCmd) : [].concat([application]).concat(silentCmd);
+  let whatToInstall = isArray(application) ? [].concat(application) : [application];
   let system = whatToInstall;
   if ((args) && (!install))
     system = args.concat(whatToInstall);
